@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jejum_de_daniel/dia.dart';
 
 void main() => runApp(MyApp());
 
@@ -35,32 +36,32 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _dia = 1;
-  var _startDate;
+  var _startDate = new DateTime.now();
 
   Future _selectStartDate() async {
     DateTime picked = await showDatePicker(
         context: context,
         initialDate: new DateTime.now(),
-        firstDate: new DateTime(2016),
-        lastDate: new DateTime(2020)
+        firstDate: new DateTime(2016), //TODO: Não precisa de um intervalo tão grande entre datas
+        lastDate: new DateTime(2020)   //Todo: Fazer um intervalo dinâmico entre datas
     );
     if(picked != null) setState(() {
-      _startDate = picked.toString();
+      _startDate = picked;
       _pray();
     });
   }
 
   void _pray() {
+    List<Widget> dias = [Dia(1), Dia(2), Dia(3)];
+
     Navigator.of(context).push(
         new MaterialPageRoute<void>(
             builder: (BuildContext context) {
-              return Scaffold(
-                appBar: AppBar(
-                  title: Text("$_diaº dia: 23/07/2019"),
-                ),
+              return PageView.builder(
+                itemCount: 21, //TODO: keep const?
+                itemBuilder: (BuildContext context, int index) => dias[index],
               );
-              }
+            }
         )
     );
   }
